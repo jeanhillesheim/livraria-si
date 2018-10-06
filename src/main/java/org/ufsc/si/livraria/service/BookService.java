@@ -42,32 +42,22 @@ public class BookService {
         		user.setName(u.getIRI().getShortForm());
         		List<Book> books = new ArrayList<>();
         		a.forEach(l -> {
+        			String title = l.getObject().toString();
+        			System.out.println();
+        			
         			Book book = new Book();
-        			book.setTitle(l.getObject().toString());
+        			book.setTitle(title.substring(title.indexOf("#") + 1, title.length() - 1));
         			books.add(book);
         		});
         		user.setBooks(books);
         		users.add(user);
         });
         
-        
-        
-        
-        
 //        Map<OWLNamedIndividual, String> livrosPorCategoria = helper.mapCategorias(livros);
-		
-		
-		
-		
-//        Map<OWLNamedIndividual, List<OWLObjectPropertyAssertionAxiom>> booksByAuthor = getBooksByAuthor(term);
-//        List<Book> books = new ArrayList<>();
-//        booksByAuthor.forEach((a, b) -> {
-//        		Book book = new Book();
-//        		book.setAuthor(a.getIRI().getShortForm());
-//        		book.setTitle(b.get(0).getObject().toString());
-//        		books.add(book);
-//        });
-//		return books;
+        
+        
+        
+        
 		return users;
 	}
 }
