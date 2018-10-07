@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.ufsc.si.livraria.model.Book;
 import org.ufsc.si.livraria.model.User;
 import org.ufsc.si.livraria.service.BookService;
 
@@ -22,8 +23,14 @@ public class IndexController {
 		return new ModelAndView("index");
 	}
 	
-	@RequestMapping("/books")
-	public @ResponseBody List<User> list() {
-		return bookService.list();
+	@RequestMapping("/books-by-user")
+	public @ResponseBody List<User> listUsers() {
+		bookService.listBooks();
+		return bookService.listUsers();
+	}
+	
+	@RequestMapping("/books-by-category")
+	public @ResponseBody List<Book> listBooks() {
+		return bookService.listBooks();
 	}
 }

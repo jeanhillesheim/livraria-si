@@ -29,13 +29,9 @@ public class BookService {
 		helper = new OntologyHelper(ONTOLOGY_PATH); 
 	}
 
-	public List<User> list() {
-		
+	public List<User> listUsers() {
 		List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
-        List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
-
         Map<OWLNamedIndividual, List<OWLObjectPropertyAssertionAxiom>> alugueisPorUsuario = helper.mapAxioms(usuarios, ALUGOU);
-        
         List<User> users = new ArrayList<>();
         alugueisPorUsuario.forEach((u, a) -> {
         		User user = new User();
@@ -52,12 +48,20 @@ public class BookService {
         		user.setBooks(books);
         		users.add(user);
         });
-        
-//        Map<OWLNamedIndividual, String> livrosPorCategoria = helper.mapCategorias(livros);
-        
-        
-        
-        
 		return users;
+	}
+	
+	public List<Book> listBooks() {
+        List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
+        Map<OWLNamedIndividual, String> livrosPorCategoria = helper.mapCategorias(livros);
+        List<Book> books = new ArrayList<>();
+		livrosPorCategoria.forEach((i, c) -> {
+			Book book = new Book();
+			book.setTitle(i.getIRI().getShortForm());
+			String category = c.substring(1);
+			book.setCategory(category.substring(0, category.indexOf("\"")));
+			books.add(book);
+		});
+		return books;
 	}
 }

@@ -5,6 +5,8 @@ public class Book {
 	private String title;
 	
 	private String author;
+	
+	private String category;
 
 	public String getTitle() {
 		return title;
@@ -20,6 +22,14 @@ public class Book {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 }

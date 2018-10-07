@@ -40,24 +40,49 @@
 			
 		</nav>
 	
-		<div class="container">
-
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-12">
-					<fieldset ng-repeat="user in users track by $index">
-						<legend>Livros locados por {{user.name | format}}</legend>
-						<div class="card-group">
-							<div class="card" style="width: 18rem;" ng-repeat="book in user.books track by $index">
-								<div class="card-body">
-									<h5 class="card-title">{{book.title | format}}</h5>
-									<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
+  				<div class="col-md-10 offset-md-1">
+  					<div class="row">
+  						<div class="col-md-12">
+			  				<fieldset ng-repeat="user in users track by $index">
+								<legend>Livros locados por {{user.name | format}}</legend>
+								<div class="card-group">
+									<div class="row">
+				  						<div class="col-sm-3" ng-repeat="book in user.books track by $index">
+											<div class="card" style="width: 18rem;">
+												<div class="card-body">
+													<h5 class="card-title">{{book.title | format}}</h5>
+													<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+  						</div>
+					</div>
+					
+					<hr>
+					<div class="row">
+  						<div class="col-md-12">
+							<div class="card-group">
+								<div class="row">
+				  					<div class="col-sm-3" ng-repeat="book in books track by $index">
+										<div class="card" style="width: 18rem;">
+											<div class="card-body">
+												<h5 class="card-title">{{book.title | format}}</h5>
+												<h6 class="card-subtitle mb-2 text-muted">{{book.category}}</h6>
+												<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</fieldset>
-				</div>
-			</div>
-			
+					</div>				
+  				</div>
+  			</div>
 		</div>
 	</body>
 
