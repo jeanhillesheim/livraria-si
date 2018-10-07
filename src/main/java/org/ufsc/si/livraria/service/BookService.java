@@ -9,7 +9,11 @@ import org.ufsc.si.livraria.model.Book;
 import org.ufsc.si.livraria.model.User;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 ;
 
@@ -79,6 +83,17 @@ public class BookService {
         });
 
         return preferredCategoryByUser;
+    }
+
+    public Map<OWLNamedIndividual, String> fetchBooksOfCategory(String category) {
+        List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
+        Map<OWLNamedIndividual, String> categoriasPorLivro = helper.mapCategorias(livros);
+
+        return categoriasPorLivro
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().equals(category))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public List<User> listUsers() {
