@@ -9,10 +9,7 @@ import org.ufsc.si.livraria.model.Book;
 import org.ufsc.si.livraria.model.User;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 ;
 
@@ -29,9 +26,10 @@ public class BookService {
     @PostConstruct
     public void loadOntology() throws OWLOntologyCreationException {
         helper = new OntologyHelper(ONTOLOGY_PATH);
+        Map<OWLNamedIndividual, String> mostReadCategoryBuUser = fetchMostReadCategoryBuUser();
     }
 
-    public Map<OWLNamedIndividual, Map<String, Integer>> matchUsersPreferedCategories() {
+    public Map<OWLNamedIndividual, Map<String, Integer>> matchUsersPreferredCategories() {
         List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
         List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
 
@@ -57,6 +55,31 @@ public class BookService {
         });
 
         return categoriaPreferidaPorUsuario;
+    }
+
+    public Map<OWLNamedIndividual, String> fetchMostReadCategoryBuUser() {
+        List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
+        Map<OWLNamedIndividual, Map<String, Integer>> usersPreferredCategories = matchUsersPreferredCategories();
+        Map<OWLNamedIndividual, String> preferredCategoryByUser = new HashMap<>();
+
+        usuarios.forEach(usuario -> {
+            Map<String, Integer> preferredCategories = usersPreferredCategories.get(usuario);
+
+            String preferredCategory = "";
+            Integer preferredCategoryReadingCount = 0;
+
+            for (String category : preferredCategories.keySet()) {
+                Integer count = preferredCategories.get(category);
+                if (count > preferredCategoryReadingCount) {
+                    preferredCategoryReadingCount = count;
+                    preferredCategory = category;
+                }
+            }
+
+            preferredCategoryByUser.put(usuario, preferredCategory);
+        });
+
+        return preferredCategoryByUser;
     }
 
     public List<User> listUsers() {
