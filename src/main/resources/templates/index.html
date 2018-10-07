@@ -53,7 +53,6 @@
 											<div class="card" style="width: 18rem;">
 												<div class="card-body">
 													<h5 class="card-title">{{book.title | format}}</h5>
-													<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
 												</div>
 											</div>
 										</div>
@@ -66,7 +65,6 @@
 											<div class="card" style="width: 18rem;">
 												<div class="card-body">
 													<h5 class="card-title">{{book.title | format}}</h5>
-													<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
 													<span class="badge badge-pill badge-success">{{book.category}}</span>
 												</div>
 											</div>
@@ -77,24 +75,6 @@
 							</fieldset>
   						</div>
 					</div>
-					
-					<div class="row">
-  						<div class="col-md-12">
-							<div class="card-group">
-								<div class="row">
-				  					<div class="col-sm-3" ng-repeat="book in books track by $index">
-										<div class="card" style="width: 18rem;">
-											<div class="card-body">
-												<h5 class="card-title">{{book.title | format}}</h5>
-												<h6 class="card-subtitle mb-2 text-muted">{{book.category}}</h6>
-												<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>				
   				</div>
   			</div>
 		</div>
