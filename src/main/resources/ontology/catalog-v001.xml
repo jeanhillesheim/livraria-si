@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1538804025400" name="http://webprotege.stanford.edu/project/CY5OJifo0F62v8GnQqHTbG" uri="root-ontology.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1538804025400" name="http://www.semanticweb.org/well/ontologies/2018/9/livraria2" uri="livraria.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1538947180711" name="http://www.semanticweb.org/well/ontologies/2018/9/livraria2" uri="livraria.owl"/>
     </group>
 </catalog>
