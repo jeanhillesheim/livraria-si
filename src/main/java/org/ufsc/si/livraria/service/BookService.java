@@ -1,5 +1,6 @@
 package org.ufsc.si.livraria.service;
 
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -9,10 +10,7 @@ import org.ufsc.si.livraria.model.Book;
 import org.ufsc.si.livraria.model.User;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 ;
@@ -30,6 +28,39 @@ public class BookService {
     @PostConstruct
     public void loadOntology() throws OWLOntologyCreationException {
         helper = new OntologyHelper(ONTOLOGY_PATH);
+    }
+
+    public Map<OWLNamedIndividual, Set<OWLNamedIndividual>> getRecomendations() {
+        List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
+        Map<OWLNamedIndividual, String> mostReadCategoryByUser = fetchMostReadCategoryByUser();
+        Map<OWLNamedIndividual, List<OWLObjectPropertyAssertionAxiom>> alugueisPorUsuario = helper.mapAxioms(usuarios, ALUGOU);
+        Map<OWLNamedIndividual, Set<OWLNamedIndividual>> recomendations = new HashMap<>();
+
+        usuarios.forEach(usuario -> {
+            String category = mostReadCategoryByUser.get(usuario);
+            Map<OWLNamedIndividual, String> booksOfCategory = fetchBooksOfCategory(category);
+
+            Set<OWLNamedIndividual> booksOfCategorySet = booksOfCategory.keySet();
+
+            List<OWLObjectPropertyAssertionAxiom> alugueis = alugueisPorUsuario.get(usuario);
+
+            List<OWLIndividual> livrosAlugados = new ArrayList<>();
+            alugueis.forEach(entry -> livrosAlugados.add(entry.getObject()));
+
+
+            Set<OWLNamedIndividual> recommendedBooks = new HashSet<>(booksOfCategorySet);
+            for (OWLIndividual book : booksOfCategorySet) {
+                livrosAlugados.forEach(livroAlugado -> {
+                    if (livroAlugado.toString().equals(book.toString())) {
+                        recommendedBooks.remove(book);
+                    }
+                });
+            }
+
+            recomendations.put(usuario, recommendedBooks);
+        });
+
+        return recomendations;
     }
 
     public Map<OWLNamedIndividual, Map<String, Integer>> matchUsersPreferredCategories() {
