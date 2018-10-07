@@ -60,7 +60,7 @@ public class BookService {
         return categoriaPreferidaPorUsuario;
     }
 
-    public Map<OWLNamedIndividual, String> fetchMostReadCategoryBuUser() {
+    public Map<OWLNamedIndividual, String> fetchMostReadCategoryByUser() {
         List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
         Map<OWLNamedIndividual, Map<String, Integer>> usersPreferredCategories = matchUsersPreferredCategories();
         Map<OWLNamedIndividual, String> preferredCategoryByUser = new HashMap<>();
