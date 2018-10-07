@@ -26,7 +26,6 @@ public class BookService {
     @PostConstruct
     public void loadOntology() throws OWLOntologyCreationException {
         helper = new OntologyHelper(ONTOLOGY_PATH);
-        Map<OWLNamedIndividual, String> mostReadCategoryBuUser = fetchMostReadCategoryBuUser();
     }
 
     public Map<OWLNamedIndividual, Map<String, Integer>> matchUsersPreferredCategories() {
