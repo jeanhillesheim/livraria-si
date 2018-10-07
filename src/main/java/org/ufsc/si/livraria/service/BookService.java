@@ -1,6 +1,7 @@
 package org.ufsc.si.livraria.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,35 @@ public class BookService {
 	
 	@PostConstruct
 	public void loadOntology() throws OWLOntologyCreationException {
-		helper = new OntologyHelper(ONTOLOGY_PATH); 
+		helper = new OntologyHelper(ONTOLOGY_PATH);
+	}
+
+	public Map<OWLNamedIndividual, Map<String, Integer>> matchUsersPreferedCategories() {
+		List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
+		List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
+
+		Map<OWLNamedIndividual, List<OWLObjectPropertyAssertionAxiom>> alugueisPorUsuario = helper.mapAxioms(usuarios, ALUGOU);
+		Map<OWLNamedIndividual, String> categoriasPorLivro = helper.mapCategorias(livros);
+
+		Map<OWLNamedIndividual, Map<String, Integer>> categoriaPreferidaPorUsuario = new HashMap<>();
+
+		alugueisPorUsuario.forEach((usuario, alugueis) -> {
+            categoriaPreferidaPorUsuario.put(usuario, new HashMap<>());
+
+            alugueis.forEach(aluguel -> {
+                String categoria = categoriasPorLivro.get(aluguel.getObject());
+
+                Map<String, Integer> countPorCategoria = categoriaPreferidaPorUsuario.get(usuario);
+
+                if (countPorCategoria.containsKey(categoria)) {
+                    countPorCategoria.put(categoria, countPorCategoria.get(categoria) + 1);
+                } else {
+                    countPorCategoria.put(categoria, 1);
+                }
+            });
+        });
+
+		return categoriaPreferidaPorUsuario;
 	}
 
 	public List<User> listUsers() {
