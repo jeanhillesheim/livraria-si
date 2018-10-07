@@ -4,20 +4,12 @@ angular.module('BookStore', [])
 	.controller('BookController', ['$rootScope', '$scope', 'BookService', function($rootScope, $scope, BookService) {
 		
 		$scope.users = [];
-		$scope.books = [];
 		
 		$scope.init = function() {
 			BookService.loadBooksByUser()
 				.then(
 					function(response) {
 						$scope.users = response.data;
-					}
-				);
-			
-			BookService.loadBooksByCategory()
-				.then(
-					function(response) {
-						$scope.books = response.data;
 					}
 				);
 		}
@@ -32,13 +24,6 @@ angular.module('BookStore', [])
 			return $http({
 				method: 'GET',
 				url: $rootScope.baseUrl + 'livraria/books-by-user'
-			});
-		}
-		
-		this.loadBooksByCategory = function() {
-			return $http({
-				method: 'GET',
-				url: $rootScope.baseUrl + 'livraria/books-by-category'
 			});
 		}
 		

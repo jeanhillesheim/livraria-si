@@ -66,4 +66,12 @@ public class OntologyHelper {
 
         return categoriasPorLivro;
     }
+
+    public String mapCategoria(OWLNamedIndividual livro) {
+    		OWLDataPropertyAssertionAxiom categoria = ontology.axioms(AxiomType.DATA_PROPERTY_ASSERTION)
+                .filter(it -> it.getSubject().equals(livro))
+                .findFirst()
+                .get();
+    		return categoria.getObject().toString();
+    }
 }

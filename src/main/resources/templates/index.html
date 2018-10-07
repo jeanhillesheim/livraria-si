@@ -49,7 +49,7 @@
 								<legend>Livros locados por {{user.name | format}}</legend>
 								<div class="card-group">
 									<div class="row">
-				  						<div class="col-sm-3" ng-repeat="book in user.books track by $index">
+				  						<div class="col-sm-3" ng-repeat="book in user.booksRead track by $index">
 											<div class="card" style="width: 18rem;">
 												<div class="card-body">
 													<h5 class="card-title">{{book.title | format}}</h5>
@@ -59,11 +59,25 @@
 										</div>
 									</div>
 								</div>
+								<legend>Recomendados</legend>
+								<div class="card-group">
+									<div class="row">
+				  						<div class="col-sm-3" ng-repeat="book in user.recomendations track by $index">
+											<div class="card" style="width: 18rem;">
+												<div class="card-body">
+													<h5 class="card-title">{{book.title | format}}</h5>
+													<h6 class="card-subtitle mb-2 text-muted">O nome do autor aqui...</h6>
+													<span class="badge badge-pill badge-success">{{book.category}}</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr>
 							</fieldset>
   						</div>
 					</div>
 					
-					<hr>
 					<div class="row">
   						<div class="col-md-12">
 							<div class="card-group">

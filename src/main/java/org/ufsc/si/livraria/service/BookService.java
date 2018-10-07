@@ -130,36 +130,38 @@ public class BookService {
     public List<User> listUsers() {
         List<OWLNamedIndividual> usuarios = helper.getIndividualsOf(USUARIO);
         Map<OWLNamedIndividual, List<OWLObjectPropertyAssertionAxiom>> alugueisPorUsuario = helper.mapAxioms(usuarios, ALUGOU);
+
+        Map<OWLNamedIndividual, Set<OWLNamedIndividual>> recomendations = getRecomendations(); 
+        
         List<User> users = new ArrayList<>();
+        
         alugueisPorUsuario.forEach((u, a) -> {
             User user = new User();
             user.setName(u.getIRI().getShortForm());
-            List<Book> books = new ArrayList<>();
+            
+            // Creates the list of books read
+            List<Book> booksRead = new ArrayList<>();
             a.forEach(l -> {
                 String title = l.getObject().toString();
-                System.out.println();
-
-                Book book = new Book();
+		    		Book book = new Book();
                 book.setTitle(title.substring(title.indexOf("#") + 1, title.length() - 1));
-                books.add(book);
+                booksRead.add(book);
             });
-            user.setBooks(books);
+            user.setBooksRead(booksRead);
+            
+            // Creates the list of recomendations
+            List<Book> recomendation = new ArrayList<>();
+            recomendations.get(u).forEach(r -> {
+            		String category = helper.mapCategoria(r);
+            		Book book = new Book();
+            		category = category.substring(1);
+                book.setCategory(category.substring(0, category.indexOf("\"")));
+            		book.setTitle(r.getIRI().getShortForm());
+            		recomendation.add(book);
+            });
+            user.setRecomendations(recomendation);
             users.add(user);
         });
         return users;
-    }
-
-    public List<Book> listBooks() {
-        List<OWLNamedIndividual> livros = helper.getIndividualsOf(LIVRO);
-        Map<OWLNamedIndividual, String> livrosPorCategoria = helper.mapCategorias(livros);
-        List<Book> books = new ArrayList<>();
-        livrosPorCategoria.forEach((i, c) -> {
-            Book book = new Book();
-            book.setTitle(i.getIRI().getShortForm());
-            String category = c.substring(1);
-            book.setCategory(category.substring(0, category.indexOf("\"")));
-            books.add(book);
-        });
-        return books;
     }
 }

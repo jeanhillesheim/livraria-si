@@ -6,7 +6,9 @@ public class User {
 
     private String name;
 
-    private List<Book> books;
+    private List<Book> booksRead;
+
+    private List<Book> recomendations;
 
     public String getName() {
         return name;
@@ -16,12 +18,20 @@ public class User {
         this.name = name;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
+	public List<Book> getBooksRead() {
+		return booksRead;
+	}
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
+	public void setBooksRead(List<Book> booksRead) {
+		this.booksRead = booksRead;
+	}
+
+	public List<Book> getRecomendations() {
+		return recomendations;
+	}
+
+	public void setRecomendations(List<Book> recomendations) {
+		this.recomendations = recomendations;
+	}
 
 }
